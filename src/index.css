@@ -1,0 +1,294 @@
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------------ *
+ *  Tokens
+ * ------------------------------------------------------------------ */
+@theme {
+  --color-night: #1a0c1e;
+  --color-plum: #2a1030;
+  --color-wine: #6d1f45;
+  --color-rose: #d9627f;
+  --color-blush: #f3c6d1;
+  --color-gold: #d9a566;
+
+  --color-paper: #fdf7ef;
+  --color-paper-deep: #f3e7d8;
+  --color-ink: #2e1a25;
+  --color-ink-soft: #6b5260;
+
+  --font-serif: 'Cormorant Garamond', 'Iowan Old Style', Georgia, serif;
+  --font-body: 'Lora', 'Iowan Old Style', Georgia, serif;
+  --font-hand: 'Caveat', 'Segoe Script', cursive;
+  --font-ui: 'Inter', ui-sans-serif, system-ui, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, monospace;
+
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+:root {
+  /* Se actualizan desde JS según el capítulo activo. */
+  --sky-top: #2b1026;
+  --sky-mid: #3f1634;
+  --sky-bottom: #571c3c;
+  --glow: #ff7ea3;
+  --spark: #ffd0dd;
+
+  color-scheme: dark;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--sky-bottom);
+  color: #f6e9ee;
+  font-family: var(--font-body);
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--glow) 45%, transparent);
+  color: #fff;
+}
+
+/* ------------------------------------------------------------------ *
+ *  Utilidades
+ * ------------------------------------------------------------------ */
+
+/* 100vh con fallback a svh (móvil sin saltos de barra de direcciones) */
+.h-stage {
+  height: 100vh;
+  height: 100svh;
+}
+
+.min-h-stage {
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
+.font-display {
+  font-family: var(--font-serif);
+}
+.font-body {
+  font-family: var(--font-body);
+}
+.font-hand {
+  font-family: var(--font-hand);
+}
+.font-ui {
+  font-family: var(--font-ui);
+}
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Textura de papel: grano fino + fibras + líneas tenues de cuaderno */
+.paper-grain {
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      rgba(120, 80, 60, 0.02) 0 1px,
+      transparent 1px 3px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(120, 80, 60, 0.016) 0 1px,
+      transparent 1px 5px
+    ),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.42'/%3E%3C/svg%3E");
+  background-size: auto, auto, 180px 180px;
+  mix-blend-mode: multiply;
+  opacity: 0.34;
+}
+
+/* Grano de la escena nocturna */
+.grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23g)'/%3E%3C/svg%3E");
+}
+
+/* Máscara de desvanecido para los bordes superior/inferior del papel */
+.edge-fade {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 9%,
+    #000 91%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 9%,
+    #000 91%,
+    transparent 100%
+  );
+}
+
+/* Texto con degradado animado (para el cierre) */
+.shimmer {
+  background-size: 220% 100%;
+  background-image: linear-gradient(
+    100deg,
+    #fff 0%,
+    #fff 22%,
+    var(--glow) 40%,
+    #fff 58%,
+    #fff 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 7s linear infinite;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 160% 0;
+  }
+  to {
+    background-position: -60% 0;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ *  Keyframes
+ * ------------------------------------------------------------------ */
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  33% {
+    transform: translate3d(3%, -4%, 0) scale(1.06);
+  }
+  66% {
+    transform: translate3d(-3%, 3%, 0) scale(0.96);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.86);
+    opacity: 0.55;
+  }
+  70%,
+  100% {
+    transform: scale(1.55);
+    opacity: 0;
+  }
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(9px);
+  }
+}
+
+@keyframes wiggle-seal {
+  0%,
+  100% {
+    transform: rotate(-3deg) scale(1);
+  }
+  50% {
+    transform: rotate(3deg) scale(1.04);
+  }
+}
+
+/* Flotación continua del papel, como una carta sostenida con las dos manos */
+@keyframes paper-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(-0.9deg);
+  }
+  50% {
+    transform: translate3d(0, -11px, 0) rotate(0.9deg);
+  }
+}
+
+.paper-float {
+  animation: paper-float 7.5s var(--ease-in-out-soft) infinite;
+}
+
+.paper-halo {
+  animation: float-slow 24s var(--ease-in-out-soft) infinite;
+}
+
+@keyframes draw-line {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.15;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.1);
+  }
+}
+
+.animate-float-slow {
+  animation: float-slow 26s var(--ease-in-out-soft) infinite;
+}
+.animate-bob {
+  animation: bob 3.4s var(--ease-in-out-soft) infinite;
+}
+.animate-wiggle-seal {
+  animation: wiggle-seal 4.5s var(--ease-in-out-soft) infinite;
+}
+.animate-draw-line {
+  transform-origin: left center;
+  animation: draw-line 1.6s var(--ease-soft) forwards;
+}
+.animate-twinkle {
+  animation: twinkle 4s ease-in-out infinite;
+}
+
+/* ------------------------------------------------------------------ *
+ *  Accesibilidad: menos movimiento
+ * ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Scrollbar discreto */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--glow) 35%, transparent);
+  border-radius: 99px;
+}

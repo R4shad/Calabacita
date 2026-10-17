@@ -1,0 +1,11 @@
+Coloca aquí las fotos de la carta.
+
+Luego reférencialas desde src/content/letter.ts:
+
+    photo: { src: '/fotos/primera-vez.jpg', caption: 'El primer día' }
+
+Recomendaciones:
+  · Formato vertical (3:4) para que encajen en los polaroids.
+  · Entre 1200 y 2000 px de alto.
+  · JPG o WebP, menos de 500 KB cada una.
+  · Los nombres con guion bajo y sin espacios: 'nosotros-01.jpg'

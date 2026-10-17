@@ -1,0 +1,7 @@
+Coloca aquí una canción (opcional) en .mp3 y actívala desde
+src/content/letter.ts:
+
+    musicSrc: '/audio/nuestra-cancion.mp3'
+
+El botón de música aparece automáticamente en la esquina inferior derecha.
+Menos de 4 MB para que cargue rápido en móvil.
